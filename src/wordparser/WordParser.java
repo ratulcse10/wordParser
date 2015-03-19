@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  *
@@ -25,11 +27,16 @@ public class WordParser {
         //Just Rename this Variable
         public static String tableName="art";
         public static int count=0;
+        public static ArrayList<String> allWordList;
+        public static ArrayList<Integer> allWordListCount;
         //Table Name
 
   
     public static void main(String[] args) {
         ArrayList<String> allData = new ArrayList<String>();
+        
+        allWordList = new ArrayList<String>();
+        allWordListCount = new ArrayList<Integer>();
         
         String path ="dataset/"+tableName+"/link";
         String SqlRead,SqlUpdate;
@@ -63,13 +70,26 @@ public class WordParser {
                     System.out.print(", Status: " + status);
                     System.out.println("\n");
                  }
+                
+                WriteFile wFile = new WriteFile();
+                wFile.write_data("Total Word Count: "+count);
+                wFile.write_data("Total Unique Word: "+allWordList.size());
+                for(int j=0;j<allWordList.size();j++){
+                    System.out.println(allWordList.get(j)+" "+allWordListCount.get(j));
+                    wFile.write_data(allWordList.get(j)+" "+allWordListCount.get(j));
+                }
+                
                 System.out.println("Total Word Count: "+count);
+                System.out.println("Total Unique Word: "+allWordList.size());
+                
+                
                 
                 rs.close();
                 statement.close();
                 connection.close();
                 
             }catch(Exception e){
+                e.printStackTrace();
                 System.out.println("Couldn't create statement.");
             }
         }catch(Exception e){
