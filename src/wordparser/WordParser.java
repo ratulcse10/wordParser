@@ -6,17 +6,75 @@
 
 package wordparser;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 /**
  *
  * @author Ratul
  */
 public class WordParser {
+    
+        //Just Rename this Variable
+        public static String tableName="art";
+        public static int count=0;
+        //Table Name
 
-    /**
-     * @param args the command line arguments
-     */
+  
     public static void main(String[] args) {
-        // TODO code application logic here
+        ArrayList<String> allData = new ArrayList<String>();
+        
+        String path ="dataset/"+tableName+"/link";
+        String SqlRead,SqlUpdate;
+        try{
+            Connection connection = Connect.CreateConntection();
+            try {
+                Statement statement = Connect.CreateStatement(connection);
+                //Statement updateStatement = Connect.CreateStatement(connection);
+                SqlRead = "SELECT id, link, status,file_status FROM "+tableName+"  where status = 1 and file_status=0";
+                SqlUpdate = "update "+tableName+" set file_status=1 where id=?";
+                
+                ResultSet rs = statement.executeQuery(SqlRead);
+                PreparedStatement preparedStatement =  connection.prepareStatement(SqlUpdate);                                  
+                
+                while(rs.next()){
+                    //Retrieve by column name
+                    int id  = rs.getInt("id");
+                    String link = rs.getString("link");
+                    int status = rs.getInt("status");
+                    
+                    preparedStatement.setInt(1, id);
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    connection.commit();
+                    
+                    //Read File according to File ID
+                    ReadFile readFile = new ReadFile();
+                    readFile.read(path, id);
+                    
+
+                    System.out.print("ID: " + id);
+                    System.out.print(", Status: " + status);
+                    System.out.println("\n");
+                 }
+                System.out.println("Total Word Count: "+count);
+                
+                rs.close();
+                statement.close();
+                connection.close();
+                
+            }catch(Exception e){
+                System.out.println("Couldn't create statement.");
+            }
+        }catch(Exception e){
+            System.out.println("Couldn't create Connection.");
+        }
     }
     
 }
