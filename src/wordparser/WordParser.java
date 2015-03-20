@@ -29,6 +29,7 @@ public class WordParser {
         public static int count=0;
         public static ArrayList<String> allWordList;
         public static ArrayList<Integer> allWordListCount;
+        public static ArrayList<String> combinedWordListCount;
         //Table Name
 
   
@@ -37,6 +38,7 @@ public class WordParser {
         
         allWordList = new ArrayList<String>();
         allWordListCount = new ArrayList<Integer>();
+        combinedWordListCount = new ArrayList<String>();
         
         String path ="dataset/"+tableName+"/link";
         String SqlRead,SqlUpdate;
@@ -74,9 +76,18 @@ public class WordParser {
                 WriteFile wFile = new WriteFile();
                 wFile.write_data("Total Word Count: "+count);
                 wFile.write_data("Total Unique Word: "+allWordList.size());
+                
+                System.out.println("Merging....");
                 for(int j=0;j<allWordList.size();j++){
                     System.out.println(allWordList.get(j)+" "+allWordListCount.get(j));
-                    wFile.write_data(allWordList.get(j)+" "+allWordListCount.get(j));
+                    combinedWordListCount.add(allWordList.get(j)+" "+allWordListCount.get(j));
+                }
+                
+                Collections.sort(combinedWordListCount);
+                
+                for(int w=0;w<combinedWordListCount.size();w++){
+                    System.out.println("Word Write Number: "+w);
+                    wFile.write_data(combinedWordListCount.get(w));
                 }
                 
                 System.out.println("Total Word Count: "+count);
