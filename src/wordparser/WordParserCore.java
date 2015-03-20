@@ -15,10 +15,12 @@ public class WordParserCore {
     
     public void parse(ArrayList<String> wholeFile){
         for(int i =0;i<wholeFile.size();i++){
+            //String replace=wholeFile.get(i).replaceAll("[‘’..\"%'<>=[|]:১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,()*!+]", "");
             StringTokenizer token = new StringTokenizer(wholeFile.get(i)," ।-?");
             while(token.hasMoreTokens()){
                 String temp = token.nextToken();
-                temp=temp.replaceAll("[‘’..\"%'<>=[|]১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,()*!+]", "");
+                temp=temp.replaceAll("[‘’..\"%'<> =[|]:১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,()*!+ ]", "");
+                temp = Pure.done(temp);
                 if(allWordList.contains(temp)){
                     int tempCount = allWordList.indexOf(temp);
                     int previousCount = allWordListCount.get(tempCount);
@@ -33,6 +35,7 @@ public class WordParserCore {
                     {
                          if(isBanglaCharacter(temp.charAt(0)))
                         {
+                            System.out.println(temp);
                          allWordList.add(temp);
                          allWordListCount.add(1); 
                          count++;
