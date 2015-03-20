@@ -25,7 +25,7 @@ import java.util.Collections;
 public class WordParser {
     
         //Just Rename this Variable
-        public static String tableName="education";
+        public static String tableName="accident";
         public static int count=0;
         public static ArrayList<String> allWordList;
         public static ArrayList<Integer> allWordListCount;
