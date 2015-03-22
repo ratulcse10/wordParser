@@ -22,11 +22,12 @@ public class WordParserCore {
 //            String replaceText1=replaceText.replace(",", "");
              String replace=wholeFile.get(i).replaceAll("[,:()*!+‘’..\"%'<>=১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789]", "");
             //StringTokenizer token = new StringTokenizer(wholeFile.get(i)," ।-?—");
-            StringTokenizer token = new StringTokenizer(replace," ।-?—");
+            StringTokenizer token = new StringTokenizer(replace," ।-?—;");
             //System.out.println(wholeFile.get(i));
             while(token.hasMoreTokens()){
-                String temp = token.nextToken();
-                temp = temp.trim();
+                String temp2 = token.nextToken();
+                String temp;
+                temp = temp2.trim();
                 
                 
                 //temp = UNDESIRABLES.matcher(temp).replaceAll("");
