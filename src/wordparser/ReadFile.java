@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 
 public class ReadFile {
-        public void read(String path,int i){
+        public static void read(String path,int i){
         String line=new String();
         ArrayList<String> wholefile=new ArrayList<String>();
         try {
@@ -24,8 +24,8 @@ public class ReadFile {
             System.out.println("Exception");
         }
         
-        WordParserCore parserCore = new WordParserCore();
-        parserCore.parse(wholefile);
+        //WordParserCore parserCore = new WordParserCore();
+        WordParserCore.parse(wholefile);
         
         
     }

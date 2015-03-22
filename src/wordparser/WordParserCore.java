@@ -7,20 +7,32 @@ import static wordparser.WordParser.allWordList;
 import static wordparser.WordParser.allWordListCount;
 import static wordparser.WordParser.count;
 import java.lang.Object;
+import java.util.regex.Pattern;
 
 
 public class WordParserCore {
+    private static final Pattern UNDESIRABLES = Pattern.compile("/[0-9.!?,;:১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789]$/");
     
     public static char[] banglaCahracterList ={ 'অ', 'আ', 'ই', 'ঈ', 'উ','ঊ','ঋ','এ','ঐ','ও','ঔ','ক','খ','গ','ঘ','ঙ','চ','ছ','জ','ঝ','ঞ','ট','ঠ','ড','ঢ','ণ','ত','থ','দ','ধ','ন','প','ফ','ব','ভ','ম','য','র','ল','শ','ষ','স','হ','য়','ড়','ঢ়'};
     
-    public void parse(ArrayList<String> wholeFile){
+    public static void parse(ArrayList<String> wholeFile){
+        
         for(int i =0;i<wholeFile.size();i++){
             //String replace=wholeFile.get(i).replaceAll("[‘’..\"%'<>=[|]:১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,()*!+]", "");
-            StringTokenizer token = new StringTokenizer(wholeFile.get(i)," ।-?");
+            // String replace=UNDESIRABLES.matcher(wholeFile.get(i)).replaceAll("");
+            StringTokenizer token = new StringTokenizer(wholeFile.get(i)," ।-?—");
+            System.out.println(wholeFile.get(i));
             while(token.hasMoreTokens()){
                 String temp = token.nextToken();
-                temp=temp.replaceAll("[‘’..\"%'<> =[|]:১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,()*!+ ]", "");
-                temp = Pure.done(temp);
+                temp = temp.trim();
+                
+                
+                temp = UNDESIRABLES.matcher(temp).replaceAll("");
+                
+                
+                //temp=temp1.replaceAll("[‘’..\"%'<> =:১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,()*!+ ]", "");
+               
+                //temp = Pure.done(temp);
                 if(allWordList.contains(temp)){
                     int tempCount = allWordList.indexOf(temp);
                     int previousCount = allWordListCount.get(tempCount);
@@ -35,7 +47,7 @@ public class WordParserCore {
                     {
                          if(isBanglaCharacter(temp.charAt(0)))
                         {
-                            System.out.println(temp);
+                            //System.out.println(temp);
                          allWordList.add(temp);
                          allWordListCount.add(1); 
                          count++;
@@ -48,7 +60,7 @@ public class WordParserCore {
         
     }
     
-    public boolean isBanglaCharacter(char ch){
+    public static boolean isBanglaCharacter(char ch){
         for(int i=0;i<banglaCahracterList.length;i++){
             if(ch == banglaCahracterList[i]){
                 return true;

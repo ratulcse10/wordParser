@@ -47,7 +47,7 @@ public class WordParser {
             try {
                 Statement statement = Connect.CreateStatement(connection);
                 //Statement updateStatement = Connect.CreateStatement(connection);
-                SqlRead = "SELECT id, link, status,file_status FROM "+tableName+"  where status = 1 and file_status=0";
+                SqlRead = "SELECT id, link, status,file_status FROM "+tableName+"  where status = 1 and file_status=0 limit 50";
                 SqlUpdate = "update "+tableName+" set file_status=1 where id=?";
                 
                 ResultSet rs = statement.executeQuery(SqlRead);
@@ -64,8 +64,8 @@ public class WordParser {
                     connection.commit();
                     
                     //Read File according to File ID
-                    ReadFile readFile = new ReadFile();
-                    readFile.read(path, id);
+                    //ReadFile readFile = new ReadFile();
+                    ReadFile.read(path, id);
                     
 
                     System.out.print("ID: " + id);
