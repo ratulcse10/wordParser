@@ -18,16 +18,18 @@ public class WordParserCore {
     public static void parse(ArrayList<String> wholeFile){
         
         for(int i =0;i<wholeFile.size();i++){
-            //String replace=wholeFile.get(i).replaceAll("[‘’..\"%'<>=[|]:১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,()*!+]", "");
-            // String replace=UNDESIRABLES.matcher(wholeFile.get(i)).replaceAll("");
-            StringTokenizer token = new StringTokenizer(wholeFile.get(i)," ।-?—");
+//            String replaceText=wholeFile.get(i).replace(":", "");
+//            String replaceText1=replaceText.replace(",", "");
+             String replace=wholeFile.get(i).replaceAll("[,:()*!+‘’..\"%'<>=১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789]", "");
+            //StringTokenizer token = new StringTokenizer(wholeFile.get(i)," ।-?—");
+            StringTokenizer token = new StringTokenizer(replace," ।-?—");
             System.out.println(wholeFile.get(i));
             while(token.hasMoreTokens()){
                 String temp = token.nextToken();
                 temp = temp.trim();
                 
                 
-                temp = UNDESIRABLES.matcher(temp).replaceAll("");
+                //temp = UNDESIRABLES.matcher(temp).replaceAll("");
                 
                 
                 //temp=temp1.replaceAll("[‘’..\"%'<> =:১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,()*!+ ]", "");
