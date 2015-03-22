@@ -23,7 +23,7 @@ public class WordParserCore {
              String replace=wholeFile.get(i).replaceAll("[,:()*!+‘’..\"%'<>=১২৩৪৫৬৭৮৯০ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789]", "");
             //StringTokenizer token = new StringTokenizer(wholeFile.get(i)," ।-?—");
             StringTokenizer token = new StringTokenizer(replace," ।-?—");
-            System.out.println(wholeFile.get(i));
+            //System.out.println(wholeFile.get(i));
             while(token.hasMoreTokens()){
                 String temp = token.nextToken();
                 temp = temp.trim();
