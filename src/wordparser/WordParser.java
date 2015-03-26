@@ -29,7 +29,7 @@ import java.util.TreeMap;
 public class WordParser {
     
         //Just Rename this Variable
-        public static String tableName="environment";
+        public static String tableName="sports";
         public static int count=0;
         public static ArrayList<String> allWordList;
         public static ArrayList<Integer> allWordListCount;
@@ -53,7 +53,7 @@ public class WordParser {
             try {
                 Statement statement = Connect.CreateStatement(connection);
                 //Statement updateStatement = Connect.CreateStatement(connection);
-                SqlRead = "SELECT id, link, status,file_status FROM "+tableName+"  where status = 1 and file_status=0 limit 50";
+                SqlRead = "SELECT id, link, status,file_status FROM "+tableName+"  where status = 1 and file_status=0 ";
                 SqlUpdate = "update "+tableName+" set file_status=1 where id=?";
                 
                 ResultSet rs = statement.executeQuery(SqlRead);
