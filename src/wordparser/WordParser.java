@@ -17,6 +17,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -25,11 +29,13 @@ import java.util.Collections;
 public class WordParser {
     
         //Just Rename this Variable
-        public static String tableName="politics";
+        public static String tableName="environment";
         public static int count=0;
         public static ArrayList<String> allWordList;
         public static ArrayList<Integer> allWordListCount;
         public static ArrayList<String> combinedWordListCount;
+        public static Map<String, Integer> freq;
+        public static TreeMap<String,Integer> sorted_map;
         //Table Name
 
   
@@ -47,7 +53,7 @@ public class WordParser {
             try {
                 Statement statement = Connect.CreateStatement(connection);
                 //Statement updateStatement = Connect.CreateStatement(connection);
-                SqlRead = "SELECT id, link, status,file_status FROM "+tableName+"  where status = 1 and file_status=0 ";
+                SqlRead = "SELECT id, link, status,file_status FROM "+tableName+"  where status = 1 and file_status=0 limit 50";
                 SqlUpdate = "update "+tableName+" set file_status=1 where id=?";
                 
                 ResultSet rs = statement.executeQuery(SqlRead);
@@ -77,18 +83,33 @@ public class WordParser {
                 wFile.write_data("Total Word Count: "+count);
                 wFile.write_data("Total Unique Word: "+allWordList.size());
                 
+                //*** Map and Soting
+                freq = new HashMap<String, Integer>();
+                ValueComparator bvc =  new ValueComparator(freq);
+                 sorted_map = new TreeMap<String,Integer>(bvc);
+                
+                
                 System.out.println("Merging....");
                 for(int j=0;j<allWordList.size();j++){
                     System.out.println(allWordList.get(j)+" "+allWordListCount.get(j));
-                    combinedWordListCount.add(allWordList.get(j)+" "+allWordListCount.get(j));
+                     freq.put(allWordList.get(j), allWordListCount.get(j));
                 }
                 
-                Collections.sort(combinedWordListCount);
+                sorted_map.putAll(freq);
+        
+                for (Map.Entry<String,Integer> entry : sorted_map.entrySet()) {
+                    String key = entry.getKey();
+                    int  value = entry.getValue();
+                    System.out.println("Key : "+key + " value : "+ value);
+                    wFile.write_data(key+" "+value);
+                 }
+                 //*** Map and Sorting End
+               // Collections.sort(combinedWordListCount);
                 
-                for(int w=0;w<combinedWordListCount.size();w++){
-                    System.out.println("Word Write Number: "+w);
-                    wFile.write_data(combinedWordListCount.get(w));
-                }
+//                for(int w=0;w<combinedWordListCount.size();w++){
+//                    System.out.println("Word Write Number: "+w);
+//                    wFile.write_data(combinedWordListCount.get(w));
+//                }
                 
                 System.out.println("Total Word Count: "+count);
                 System.out.println("Total Unique Word: "+allWordList.size());
@@ -108,4 +129,21 @@ public class WordParser {
         }
     }
     
+}
+
+class ValueComparator implements Comparator<String> {
+
+    Map<String, Integer> base;
+    public ValueComparator(Map<String, Integer> base) {
+        this.base = base;
+    }
+
+    // Note: this comparator imposes orderings that are inconsistent with equals.    
+    public int compare(String a, String b) {
+        if (base.get(a) >= base.get(b)) {
+            return -1;
+        } else {
+            return 1;
+        } // returning 0 would merge keys
+    }
 }

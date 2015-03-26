@@ -11,7 +11,7 @@ public class WriteFile {
     public void write_data(String result){
         
         try{
-            File file = new File("wordset/"+WordParser.tableName+"/words.txt");
+            File file = new File("wordset/"+WordParser.tableName+"/words_zipf.txt");
             file.createNewFile();
             FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
             BufferedWriter bw = new BufferedWriter(fw);
